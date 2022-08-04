@@ -21,7 +21,7 @@ API key will be provided to the candidate if the project is accepted.
 
 
 # Guidelines & Deliverables
-- The demonstration should be committed in the Github repository provided.
+- The demonstration should be committed in the Github repository provided. Please create and commit a branch for your work.
 - Describe your solution in a README and how to run it. Ensure that you clearly state assumptions that you made.
 - Please commit early and often and with good commit messages. This will allow us to see how you've approached the problem. Don't worry about changing things around often.
 - Be prepared to discuss some of your approaches and design decisions.
