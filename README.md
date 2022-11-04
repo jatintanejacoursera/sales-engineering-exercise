@@ -11,7 +11,7 @@ Intentionally the Use-Case is very generic. No further details will be provided 
 Documentation at https://doc.maps.nextbillion.io/api_reference/
 API key will be provided to the candidate if the project is accepted.
 - The demonstration should be committed in the Github repository provided.
-- The candidate should be ready to present his work.
+- The candidate should be ready to present his work as one of the objectives of this exercise is to assess how comfortable the candidate is presenting to a small audience.
 
 # No Requirements
 - No requirements on the technology of choice (programming language, framework, etc) for implementing the demonstration.
