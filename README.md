@@ -1,29 +1,31 @@
-# sales-engineering-exercise
-Template for Solutions Engineer candidates to use for creating their exercise submissions
+# Solution Overview
+This solution helps a user in finding driving/walking directions between point A and point B.
 
-# Story
-Develop a demonstration  that allows a user to search for a given Point Of Interest near his position and get walking and/or driving directions to it.
-Intentionally the Use-Case is very generic. No further details will be provided on the Use-Case, to avoid biassing the candidate creativity.
+# Description
+User has to provide following inputs-Start Location ( Origin Lat, Origin Lng), Destination Location ( Destination Lat, Destination Lng), travel mode. Based on user input driving/walking directions between Origin Location and Destination Location are showcased on the maps interface.
+Sequence-
+1.	User provides input for Origin Lat and Origin Lng.
+2.	User then provides input for Destination Lat and Destination Lng.
+3.	User then chooses travel mode by clicking on relevant button against- Walking/Driving. 
+4.	After that user clicks ‘Calculate Directions’.
 
-# Requirements
-- The demonstration should have a visual front end (UI), similar to what NextBillion.ai Solution Engineers would use during customer meetings to demonstrate the technology stack.
-- The demonstration should exercise the NextBillion.ai API 
-Documentation at https://doc.maps.nextbillion.io/api_reference/
-API key will be provided to the candidate if the project is accepted.
-- The demonstration should be committed in the Github repository provided.
-- The candidate should be ready to present his work as one of the objectives of this exercise is to assess how comfortable the candidate is presenting to a small audience.
+To provide Start Location as input, user has 3 ways-
+a.	Provide Origin Lat and Origin Lng manually
+b.	Click on ‘Current Location’ button to get browser location.
+c.	Click on the maps interface and the corresponding lat/long gets filled in the Origin Lat and Origin Lng.
 
-# No Requirements
-- No requirements on the technology of choice (programming language, framework, etc) for implementing the demonstration.
-- No requirements on the type of application (desktop or mobile).
-- No requirements on time spent to build the demonstration. We do not expect the candidate to spend too much time developing the demo. As such the demonstration does not have to be complete, as long as the key building blocks are in place and can be used to guide the discussion during review.
-- Not a requirement but the https://maplibre.org/ SDKs can be used in combination with NextBillion.ai API, especially for tiles rendering and objects overlay (markers, GeoJSON polylines, polygons, etc).
+ To provide Destination Location as input, user has 2 ways-
+a.	Provide Destination Lat and Destination Lng manually
+b.	Click on the maps interface and the corresponding lat/long gets filled in the Origin Lat and Origin Lng.
 
+# Testing Requirements
+This solution needs a web server to run the file DirectionsServiceExample2.html. It has been tested on Google Chrome.
 
-# Guidelines & Deliverables
-- The demonstration should be committed in the Github repository provided. Please create and commit a branch for your work.
-- Describe your solution in a README and how to run it. Ensure that you clearly state assumptions that you made.
-- Please commit early and often and with good commit messages. This will allow us to see how you've approached the problem. Don't worry about changing things around often.
-- Be prepared to discuss some of your approaches and design decisions.
-- Please ask any questions if something is unclear.
+# Assumptions
+User will refresh the application after completion of each successful transaction when directions are fetched between Origin and Destination.
+User will follow only one method unilaterally to provide inputs- 
+a. If current location is pressed then Destination Lat and Destination Lng will be given manually.
+b. Provide   Origin Lat and Origin Lng manually
+c. Click on maps interface for Origin Lat ,Origin Lng and Destination Lat, Destination Lng. 
+
 
