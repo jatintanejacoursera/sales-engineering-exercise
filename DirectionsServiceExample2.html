@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Find Directions Using NBAI Maps</title>
+    <style>
+    
+      #map {
+        height: 250px;
+        position: relative;
+        margin-left: 2px;
+        width: 600px;
+        margin-top: 10px;
+        
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 50%;
+        margin: 130px;
+        margin-top: 10px;
+        padding-left: : 400px;
+        position: top;
+      }
+      #container {
+        postion: top;
+        font-family: Roboto;
+        height: 200px;
+        width: 680px;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-bottom: 120px;
+        padding-right: 20px;
+        background-color: #BCBCBC;
+      }
+      #NBAIImageContainer {
+        postion: right;
+        height: 00px;
+        width: 100px;
+        margin-left: 750px;
+        margin-right: 0px;  
+      }
+       #currentlocation {
+        margin-top: 10px;
+        margin-left: 220px;
+        margin-right: 0px; 
+
+      }
+      #travelmodes {
+        margin-left: 250px;
+        margin-right: 0px;
+        margin-bottom: 20px;
+        padding-bottom: 50px; 
+        postion: top;
+      }
+      
+       #map {
+        postion: top;
+        height: 350px;
+        width: 680px;
+        margin-left: 00px;
+        margin-right: 20px;
+        margin-top: 00px;
+        margin-bottom: 00px;
+        padding-top: 00px;
+        padding-bottom: 00px;
+        padding-left: 00px;
+        padding-right: 20px;
+        background-color: #BCBCBC;
+      }
+      
+    </style>
+    
+  </head>
+
+  <body>
+    
+    <div id="NBAIImageContainer">
+      <br>
+      <img src="https://i.ibb.co/sjswg2J/NBAI-Image.jpg" height="70px" widgt="560px"/>
+      
+    </div>
+    </br>
+  
+    <div id="container" > 
+      <p align="center"><font size="2", family="Roboto", color="black"><b><pre>
+        Find Walking/Driving Directions to a POI near you 
+      1. Press 'Current Location' to automattically detect your location or input lat/long 
+         to Origin Lat/Lng. You could also click on Maps Interface to detect Origin Lat/Lng.
+      2. Input Destination Lat/Lng or click on Maps Interface to detect Destination Lat/Lng.
+      3. Choose Travel mode
+      4. Click Calculate Directions</pre></p>
+      <button type="button" id="currentlocation" onclick="getCurrentLocation()" color="black"><b>Current Location</b></button>
+  <table id="inputs">
+  <tr>
+    <td>
+   <p font size="0.5" family="Roboto">Origin Lat:</p><input type="text" id="origin_lat" placeholder="Input origin lat">
+ </td>
+ <td>
+   <p>Origin Lng:</p><input type="text" label="origin_lng" id="origin_lng" placeholder="Input Origin Lng" >
+</td>
+
+</tr></br>
+<tr>
+  <td>
+   <p family="Roboto">Destination Lat:</p><input type="text" id="destination_lat" placeholder="Input Destination Latitude" >
+   </td>
+   <td>
+   <p font size="0.5" family="Roboto">Destination Lng:</p> <input type="text" id="destination_lng" placeholder="Input Destination Longitude" >
+  </td>
+  <td>
+   <p>Please select travel mode:</p><input type="radio" id="walking" name="travel_mode" value="0w">Walking<br><input type="radio" id="driving" name="travel_mode" value="4w">Driving <input type="submit" value="Submit" onclick="getTravelMode()"><br><button type="button" id="calcdirections" color="black"><b>Calculate Directions</b></button>
+</td>
+  </tr>  
+</table>
+  
+ 
+<div id="map"></div>
+
+ <script src="https://maps-gl.nextbillion.io/maps/v2/api/js"></script>
+    <script>
+     
+       nextbillion.setApiKey("8e7314ae29134eb5a791c5efc3a8762d");
+        var nbmap = new nextbillion.maps.Map({
+          container: document.getElementById("map"),
+          style: "https://api.nextbillion.io/maps/streets/style.json",
+          zoom: 6,
+          center: { lat: 28.6443981, lng: 77.1130255 }
+        });
+  
+ var org_lat, org_lng, dest_lat, dest_lng, wayp1_lat, wayp1_lng;
+ var geo_lat, geo_lng;
+ var tmode;
+ var mouse_org_lat, mouse_org_lng, mouse_dest_lat, mouse_dest_lng;
+ var originMarker, destinationMarker;
+   
+  nbmap.map.on('click', (e) => {
+    if (!originMarker) {
+      //window.alert("Inside getLatLngMouseClick()++++");
+      originMarker = new nextbillion.maps.Marker(
+        { 
+          color: "green",
+          draggable: true,
+          scale: .6
+        });
+      //window.alert("Value of e.lat in originMarker just before setLngLat is "+e.lngLat.lat);
+      //window.alert("Value of e.lng in originMarker just before setLngLat is "+e.lngLat.lng);
+       originMarker.setLngLat({
+          lat: e.lngLat.lat,
+          lng: e.lngLat.lng
+        });
+       originMarker.addTo(nbmap.map);
+        mouse_org_lat=e.lngLat.lat;
+        mouse_org_lng=e.lngLat.lng;
+        //window.alert("Value of mouse_org_lat that has been setis "+mouse_org_lat);
+        //window.alert("Value of mouse_org_lng that has been setis "+mouse_org_lng);
+        document.getElementById("origin_lat").value = mouse_org_lat;
+        document.getElementById("origin_lng").value = mouse_org_lng;
+    }
+     else if (!destinationMarker) {
+      destinationMarker = new nextbillion.maps.Marker(
+        { 
+          color: "red",
+          draggable: true,
+          scale: .6
+        });
+        destinationMarker.setLngLat({
+          lat: e.lngLat.lat,
+          lng: e.lngLat.lng
+        });
+        destinationMarker.addTo(nbmap.map);
+        mouse_dest_lat=e.lngLat.lat;
+        mouse_dest_lng=e.lngLat.lng;
+        document.getElementById("destination_lat").value = mouse_dest_lat;
+        document.getElementById("destination_lng").value = mouse_dest_lng;
+    }else{
+
+    }
+  });
+    
+ (document.getElementById("calcdirections")).addEventListener(
+    "click",
+    () => {
+          const directionsService = new nextbillion.maps.DirectionsService();
+          org_lat=document.getElementById("origin_lat").value;
+          org_lng=document.getElementById("origin_lng").value;
+          dest_lat=document.getElementById("destination_lat").value;
+          dest_lng=document.getElementById("destination_lng").value;
+          // request the directions api
+          directionsService
+            .route({
+              origin: { lat: org_lat, lng: org_lng },
+              mode: [tmode],
+              destination: { lat: dest_lat, lng: dest_lng }
+            })
+            .then((response) => {
+              // render the result
+              nbmap.map.addSource("route", {
+                type: "geojson",
+                data: {
+                  type: "Feature",
+                  properties: {},
+                  geometry: {
+                    type: "LineString",
+                    coordinates: nextbillion.utils.polyline
+                      .decode(response.routes[0].geometry, 6)
+                      .map((c) => c.reverse())
+                  }
+                }
+              });
+              nbmap.map.addLayer({
+                id: "route",
+                type: "line",
+                source: "route",
+                layout: {
+                  "line-join": "round",
+                  "line-cap": "round"
+                },
+                paint: {
+                  "line-color": "#8D5A9E",
+                  "line-width": 8
+                }
+              });
+            });
+        });
+
+
+function getCurrentLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    window.alert("Geolocation is not supported by this browser.");
+  }
+}
+
+function showPosition(position) {
+  geo_lat = position.coords.latitude;
+  geo_lng=  position.coords.longitude;
+ //window.alert("Value of lat and lng is"+ geo_lat+","+geo_lng);
+ org_lat= geo_lat;
+ org_lng= geo_lng;
+    //window.alert("Value of org_lat is111"+org_lat);
+    //window.alert("Value of org_lng is111"+org_lng);
+    document.getElementById("origin_lat").value = org_lat;
+    document.getElementById("origin_lng").value = org_lng;
+    addMarker(nbmap);
+//window.alert("End of function showposition");
+}
+  
+ function addMarker(nbmap) {
+          //window.alert("Inside add marker function");
+          const popup = new nextbillion.maps.Popup({
+            offset: 1,
+            closeButton: false
+          }).setText("Current Location");
+          const marker = new nextbillion.maps.Marker()
+          .setLngLat({ lat: org_lat, lng: org_lng })
+          .setPopup(popup)
+          .addTo(nbmap.map);
+          marker.togglePopup();
+          
+        }
+  function getTravelMode(){
+    //window.alert("Inside function getTravelMode");
+
+    radios=document.getElementsByName("travel_mode");
+    for(var i of radios)
+    {
+      if(i.checked){
+        tmode=i.value;
+        //window.alert("Value of tmode inside for loop is"+tmode);
+      }
+    }
+    //window.alert("Value of tmode is111"+tmode);
+  }
+
+    </script>
+   
+  </body>
+</html>
